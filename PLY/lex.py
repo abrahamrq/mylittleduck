@@ -2,7 +2,7 @@ import ply.lex as lex
 
 # List of tokens
 reserved = {
-	 'program' : 'PROGRAM',
+   'program' : 'PROGRAM',
    'int' : 'INT',
    'float' : 'FLOAT',
    'if' : 'IF',
@@ -11,10 +11,10 @@ reserved = {
    'print' : 'PRINT'
 }
 tokens = ( 'INT', 'FLOAT', 'INTCONST', 'FLOATCONST','STRINGCONST', 
-					 'PROGRAM', 'SEMICOLON', 'COLON', 'VAR', 'DIFFERENCE', 'LESSER', 
-					 'GREATER', 'IF', 'OPENBRACKETS', 'CLOSEBRACKETS', 'ADD', 'SUB', 
-					 'MULT', 'DIV', 'COMMA', 'EQUAL', 'PRINT', 'OPENPARENTHESIS', 
-					 'CLOSEPARENTHESIS', 'ELSE', 'ID')
+           'PROGRAM', 'SEMICOLON', 'COLON', 'VAR', 'DIFFERENCE', 'LESSER', 
+           'GREATER', 'IF', 'OPENBRACKETS', 'CLOSEBRACKETS', 'ADD', 'SUB', 
+           'MULT', 'DIV', 'COMMA', 'EQUAL', 'PRINT', 'OPENPARENTHESIS', 
+           'CLOSEPARENTHESIS', 'ELSE', 'ID')
 
 #Tokens definitions
 t_ignore = ' \t\n'
