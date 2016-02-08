@@ -45,38 +45,50 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    PROGRAM = 258,
-    IF = 259,
-    ELSE = 260,
-    VAR = 261,
-    PRINT = 262,
-    INTTYPE = 263,
-    FLOATTYPE = 264,
+    INT = 258,
+    FLOAT = 259,
+    INTCONST = 260,
+    FLOATCONST = 261,
+    ID = 262,
+    STRINGCONST = 263,
+    PROGRAM = 264,
     SEMICOLON = 265,
     COLON = 266,
-    EQUAL = 267,
-    OPENPARENTHESIS = 268,
-    CLOSEPARENTHESIS = 269,
-    OPENBRACKETS = 270,
-    CLOSEBRACKETS = 271,
-    GREATER = 272,
-    LESSER = 273,
-    EQUALITY = 274,
-    DOT = 275,
-    SUM = 276,
-    SUBSTRACT = 277,
-    MULTIPLICATION = 278,
-    DIVISION = 279,
-    ID = 280,
-    STRINGCONSTANT = 281,
-    INTCONSTANT = 282,
-    FLOATCONSTANT = 283
+    VAR = 267,
+    DIFFERENCE = 268,
+    LESSER = 269,
+    GREATER = 270,
+    IF = 271,
+    OPENBRACKETS = 272,
+    CLOSEBRACKETS = 273,
+    ADD = 274,
+    SUB = 275,
+    MULT = 276,
+    DIV = 277,
+    COMMA = 278,
+    EQUAL = 279,
+    PRINT = 280,
+    OPENPARENTHESIS = 281,
+    CLOSEPARENTHESIS = 282,
+    ELSE = 283
   };
 #endif
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE YYSTYPE;
+union YYSTYPE
+{
+#line 11 "bison.y" /* yacc.c:1909  */
+
+  int vint;
+  float vfloat;
+  char *vstring;
+  char *sint;
+  char *sfloat;
+
+#line 91 "bison.tab.h" /* yacc.c:1909  */
+};
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif

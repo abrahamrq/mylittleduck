@@ -1,144 +1,166 @@
 %{
-#include <cstdio>
-#include <iostream>
-using namespace std;
-extern "C" int yylex();
-extern "C" int yyparse();
-extern "C" FILE *yyin;
-void yyerror(const char *s);
+  #include <stdio.h>
+  #include <iostream>
+  using namespace std;
+  extern "C" int yylex();
+  extern "C" int yyparse();
+  extern "C" FILE *yyin;
+  void yyerror(const char *s);
 %}
 
-%start program
+%union{
+  int vint;
+  float vfloat;
+  char *vstring;
+  char *sint;
+  char *sfloat;
+}
+
+%token <sint> INT
+%token <sfloat> FLOAT 
+%token <vint> INTCONST
+%token <vfloat> FLOATCONST
+%token <vstring> ID
+%token <vstring> STRINGCONST
 %token PROGRAM
-%token IF
-%token ELSE
-%token VAR
-%token PRINT
-%token INTTYPE
-%token FLOATTYPE
 %token SEMICOLON
 %token COLON
-%token EQUAL
-%token OPENPARENTHESIS
-%token CLOSEPARENTHESIS
+%token VAR
+%token DIFFERENCE
+%token LESSER
+%token GREATER
+%token IF
 %token OPENBRACKETS
 %token CLOSEBRACKETS
-%token GREATER
-%token LESSER
-%token EQUALITY
-%token DOT
-%token SUM
-%token SUBSTRACT
-%token MULTIPLICATION
-%token DIVISION
-%token ID
-%token STRINGCONSTANT
-%token INTCONSTANT
-%token FLOATCONSTANT
+%token ADD
+%token SUB
+%token MULT
+%token DIV
+%token COMMA
+%token EQUAL
+%token PRINT
+%token OPENPARENTHESIS
+%token CLOSEPARENTHESIS
+%token ELSE
 
 %%
-  program: PROGRAM ID SEMICOLON a
-          ;
+program:
+  PROGRAM ID SEMICOLON program2
+  ;
 
-  a: bloque
-   | vars bloque
-   ;
+program2:
+  vars bloque
+  | bloque
+  ;
 
-  vars: VAR b
-      ;
+vars:
+  VAR vars2
+  ;
 
-  b: c d
-   ;
+vars2:
+  vars3 COLON tipo SEMICOLON
+  ;
 
-  c: ID cprima
-   ;
+vars3:
+  ID vars4
+  ;
 
-  cprima: DOT c
-        | epsilon
-        ;
+vars4:
+  | COMMA vars3
+  ;
 
-  d: COLON tipo SEMICOLON e
-   ;
+tipo:
+  INT
+  | FLOAT
+  ;
 
-  tipo : INTTYPE
-       | FLOATTYPE
-       ;
+bloque:
+  OPENBRACKETS bloque2 CLOSEBRACKETS
+  ;
 
-  e: b
-   | epsilon
-   ;
+bloque2:
+  | estatuto bloque2
+  ;
 
-  bloque: OPENBRACKETS f CLOSEBRACKETS
-        ;
+estatuto:
+  asignacion
+  | condicion
+  | escritura
+  ;
 
-  f: estatuto f
-   | epsilon
-   ;
+asignacion:
+  ID EQUAL expresion SEMICOLON
+  ;
 
-  estatuto: ID EQUAL expresion SEMICOLON
-          | PRINT OPENPARENTHESIS g CLOSEPARENTHESIS
-          | IF OPENPARENTHESIS expresion CLOSEPARENTHESIS bloque i SEMICOLON
-          ;
-  g: expresion h
-   | STRINGCONSTANT h
-   ;
+escritura:
+  PRINT OPENPARENTHESIS escritura2 CLOSEPARENTHESIS SEMICOLON
+  ;
 
-  h: SEMICOLON g
-   | epsilon
-   ;
+escritura2:
+  expresion escritura3
+  | STRINGCONST escritura3
+  ;
 
-  i: ELSE bloque
-   | epsilon
-   ;
+escritura3:
+  | COMMA escritura2
+  ;
 
-  expresion: exp j
-           ;
+expresion:
+  exp expresion2
+  ;
 
-  j: GREATER exp
-   | LESSER exp
-   | EQUALITY exp
-   | epsilon
-   ;
+expresion2:
+  | GREATER exp
+  | LESSER exp
+  | DIFFERENCE exp
+  ;
 
-  exp: terminos k
-     ;
+condicion:
+  IF OPENPARENTHESIS expresion CLOSEPARENTHESIS bloque condicion2 SEMICOLON
+  ;
 
-  k: SUM exp
-   | SUBSTRACT
-   | epsilon
-   ;
+condicion2:
+  | ELSE bloque
+  ;
 
-  terminos: factor l
-          ;
+exp:
+  termino exp2
+  ;
 
-  l: MULTIPLICATION terminos
-   | DIVISION terminos
-   | epsilon
-   ;
+exp2:
+  | ADD exp
+  | SUB exp
+  ;
 
-  factor: OPENPARENTHESIS expresion CLOSEPARENTHESIS
-        | m varcte
-        ;
+termino:
+  factor termino2
+  ;
 
-  m: SUM
-   | SUBSTRACT
-   | epsilon
-   ;
+termino2:
+  | MULT termino
+  | DIV termino
+  ;
 
-  varcte: ID
-        | INTCONSTANT
-        | FLOATCONSTANT
-        ;
+factor:
+  OPENPARENTHESIS expresion CLOSEPARENTHESIS
+  | ADD varcte
+  | SUB varcte
+  | varcte
+  ;
 
-  epsilon:
-         ; 
+varcte:
+  ID
+  | INTCONST
+  | FLOATCONST
+  ;
+
 
 %%
 
 int main (int argc, char *argv[]){
   FILE *archivo = fopen(argv[1], "r");
   if (!archivo){
-    cout << "Unable to read file" << endl;
+    cout << "El archivo no se pudo abrir" << endl;
     return -1;
   }
 
@@ -146,7 +168,7 @@ int main (int argc, char *argv[]){
   do{
     yyparse();
   }while(!feof(yyin));
-  cout << "Invalid Expresion" << endl;
+  cout << "expresión válida" << endl;
 }
 
 void yyerror(const char *s){
