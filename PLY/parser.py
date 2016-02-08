@@ -4,6 +4,7 @@ tokens = lex.tokens
 
 def p_program(p):
   '''program : PROGRAM ID SEMICOLON vars block'''
+  p[0] = "Valid"
 
 def p_vars(p):
   '''vars : VAR declaration
@@ -112,7 +113,16 @@ def p_elsecondition(p):
                    |'''
 
 def p_error(p):
-    print("Syntax error at token", p.type)
-
+    if type(p).__name__ == 'NoneType':
+      print('Syntax error')
+    else:
+      print('Syntax error at token', p.type, p.value)
 # Build the parser
 parser = yacc.yacc(start='program')
+
+def check(filename):
+  f = open(filename, 'r')
+  data = f.read()
+  f.close()
+  if parser.parse(data) == 'Valid':
+    print('VALID!')

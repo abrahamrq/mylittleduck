@@ -1,6 +1,15 @@
 import ply.lex as lex
 
 # List of tokens
+reserved = {
+	 'program' : 'PROGRAM',
+   'int' : 'INT',
+   'float' : 'FLOAT',
+   'if' : 'IF',
+   'var' : 'VAR',
+   'else' : 'ELSE',
+   'print' : 'PRINT'
+}
 tokens = ( 'INT', 'FLOAT', 'INTCONST', 'FLOATCONST','STRINGCONST', 
 					 'PROGRAM', 'SEMICOLON', 'COLON', 'VAR', 'DIFFERENCE', 'LESSER', 
 					 'GREATER', 'IF', 'OPENBRACKETS', 'CLOSEBRACKETS', 'ADD', 'SUB', 
@@ -9,17 +18,9 @@ tokens = ( 'INT', 'FLOAT', 'INTCONST', 'FLOATCONST','STRINGCONST',
 
 #Tokens definitions
 t_ignore = ' \t\n'
-t_INT = r'int'
-t_FLOAT = r'float'
 t_STRINGCONST = r'\".*\"'
 t_INTCONST = r'[0-9]+ '
 t_FLOATCONST = r'[0-9]+\.+[0-9]+'
-t_IF = r'if'
-t_VAR = r'var'
-t_PROGRAM  = r'program'
-t_PRINT = r'print'
-t_ELSE = r'else'
-t_ID = r'[a-zA-Z]+(_?[a-zA-Z0-9])*'
 t_SEMICOLON = r';'
 t_COLON = r':'
 t_DIFFERENCE = r'<>'
@@ -35,6 +36,11 @@ t_COMMA = r','
 t_EQUAL = r'='
 t_OPENPARENTHESIS = r'\('
 t_CLOSEPARENTHESIS = r'\)'
+
+def t_ID(t):
+  r'[a-zA-Z]+(_?[a-zA-Z0-9])*'
+  t.type = reserved.get(t.value, 'ID')    # Check for reserved words
+  return t
 
 def t_error(t):
   print 'Lexer error: ', t

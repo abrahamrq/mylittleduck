@@ -33,5 +33,5 @@ else 										{return ELSE;}
 [0-9]+\.[0-9]+ 					{yylval.vfloat = atof(yytext); return FLOATCONST;}
 [0-9]+ 									{yylval.vint = atoi(yytext); return INTCONST;}
 [a-zA-Z][a-zA-Z0-9]* 		{yylval.vstring = strdup(yytext); return ID;}
-\"[a-zA-Z0-9]*\" 				{yylval.vstring = strdup(yytext); return STRINGCONST;} 
+\".*\" 				{yylval.vstring = strdup(yytext); return STRINGCONST;} 
 %%
