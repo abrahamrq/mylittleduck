@@ -45,116 +45,131 @@
 
 %%
 program:
-  PROGRAM ID SEMICOLON program2
-  ;
-
-program2:
-  vars bloque
-  | bloque
+  PROGRAM ID SEMICOLON vars bloque
   ;
 
 vars:
-  VAR vars2
+  | VAR declaration
   ;
 
-vars2:
-  vars3 COLON tipo SEMICOLON
+ids:
+  ID idsloop
   ;
 
-vars3:
-  ID vars4
+idsloop:
+  | COMMA idsloop2
   ;
 
-vars4:
-  | COMMA vars3
-  ;
+idsloop2:
+  ID COMMA idsloop2
+  | ID
 
 tipo:
   INT
   | FLOAT
   ;
 
+declaration:
+  ids COLON tipo SEMICOLON declarationloop
+  ;
+
+declarationloop:
+  | declaration
+  ;
+
 bloque:
-  OPENBRACKETS bloque2 CLOSEBRACKETS
+  OPENBRACKETS statuteloop CLOSEBRACKETS
   ;
 
-bloque2:
-  | estatuto bloque2
+statuteloop:
+  | statute statuteloop
   ;
 
-estatuto:
-  asignacion
-  | condicion
-  | escritura
+statute:
+  assignment
+  | condition
+  | writing
   ;
 
-asignacion:
-  ID EQUAL expresion SEMICOLON
+expression:
+  exp expressionaux
   ;
 
-escritura:
-  PRINT OPENPARENTHESIS escritura2 CLOSEPARENTHESIS SEMICOLON
+expressionaux:
+  | comparer exp
   ;
 
-escritura2:
-  expresion escritura3
-  | STRINGCONST escritura3
-  ;
-
-escritura3:
-  | COMMA escritura2
-  ;
-
-expresion:
-  exp expresion2
-  ;
-
-expresion2:
-  | GREATER exp
-  | LESSER exp
-  | DIFFERENCE exp
-  ;
-
-condicion:
-  IF OPENPARENTHESIS expresion CLOSEPARENTHESIS bloque condicion2 SEMICOLON
-  ;
-
-condicion2:
-  | ELSE bloque
+comparer:
+  GREATER
+  | LESSER
+  | DIFFERENCE
   ;
 
 exp:
-  termino exp2
+  term expaux
   ;
 
-exp2:
-  | ADD exp
-  | SUB exp
+expaux:
+  |operation exp
   ;
 
-termino:
-  factor termino2
+operation:
+  ADD
+  |SUB
   ;
 
-termino2:
-  | MULT termino
-  | DIV termino
+term:
+  factor termaux
+  ;
+
+termaux:
+  | operation2 term
+  ;
+
+operation2:
+  MULT
+  | DIV
   ;
 
 factor:
-  OPENPARENTHESIS expresion CLOSEPARENTHESIS
-  | ADD varcte
-  | SUB varcte
-  | varcte
+  OPENBRACKETS expression CLOSEBRACKETS
+  | optionaloperation ctevar
   ;
 
-varcte:
+optionaloperation:
+  | operation
+  ;
+
+ctevar:
   ID
   | INTCONST
   | FLOATCONST
   ;
 
+assignment:
+  ID EQUAL expression SEMICOLON
+  ;
 
+writing:
+  PRINT OPENPARENTHESIS expstring writingloop CLOSEPARENTHESIS SEMICOLON
+  ;
+
+expstring:
+  expression
+  | STRINGCONST
+  ;
+
+writingloop: 
+  | COMMA expstring writingloop
+  ;
+
+condition:
+  IF OPENPARENTHESIS expression CLOSEPARENTHESIS bloque conditionelse SEMICOLON
+  ;
+
+conditionelse:
+  | ELSE bloque
+  ;
 %%
 
 int main (int argc, char *argv[]){

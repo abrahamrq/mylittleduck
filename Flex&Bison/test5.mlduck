@@ -1,4 +1,4 @@
-program TRES ; 
+program CINCO ; 
 var a: int ; 
 { a = 2.3;
 print (TRES, "ajuaa"); 
@@ -6,4 +6,4 @@ if (a)
 {print("t");
 }else
 {print("j");
-};}
+};

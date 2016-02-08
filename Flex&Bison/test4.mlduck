@@ -1,0 +1,7 @@
+program cuATRO; 
+var a: int 
+{ hey = 2.3 ;
+print (DOS, "hey"); 
+if (a)
+{print(1);
+};}
