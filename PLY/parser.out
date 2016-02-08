@@ -1,0 +1,1143 @@
+Created by PLY version 3.4 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> PROGRAM ID SEMICOLON vars block
+Rule 2     vars -> VAR declaration
+Rule 3     vars -> <empty>
+Rule 4     ids -> ID idsloop
+Rule 5     idsloop -> COMMA idsloop2
+Rule 6     idsloop -> <empty>
+Rule 7     idsloop2 -> ID COMMA idsloop2
+Rule 8     idsloop2 -> ID
+Rule 9     type -> INT
+Rule 10    type -> FLOAT
+Rule 11    declaration -> ids COLON type SEMICOLON declarationloop
+Rule 12    declarationloop -> declaration
+Rule 13    declarationloop -> <empty>
+Rule 14    block -> OPENBRACKETS statutesloop CLOSEBRACKETS
+Rule 15    statutesloop -> statute statutesloop
+Rule 16    statutesloop -> <empty>
+Rule 17    statute -> assignment
+Rule 18    statute -> condition
+Rule 19    statute -> writting
+Rule 20    expression -> exp expressionaux
+Rule 21    expressionaux -> comparer exp
+Rule 22    expressionaux -> <empty>
+Rule 23    comparer -> GREATER
+Rule 24    comparer -> LESSER
+Rule 25    comparer -> DIFFERENCE
+Rule 26    exp -> term expaux
+Rule 27    expaux -> operation exp
+Rule 28    expaux -> <empty>
+Rule 29    operation -> ADD
+Rule 30    operation -> SUB
+Rule 31    term -> factor termaux
+Rule 32    termaux -> operation2 term
+Rule 33    termaux -> <empty>
+Rule 34    operation2 -> MULT
+Rule 35    operation2 -> DIV
+Rule 36    factor -> OPENBRACKETS expression CLOSEBRACKETS
+Rule 37    factor -> optionaloperator constvar
+Rule 38    optionaloperator -> operation
+Rule 39    optionaloperator -> <empty>
+Rule 40    constvar -> ID
+Rule 41    constvar -> INTCONST
+Rule 42    constvar -> FLOATCONST
+Rule 43    assignment -> ID EQUAL expression SEMICOLON
+Rule 44    writting -> PRINT OPENPARENTHESIS expstring writtingloop CLOSEPARENTHESIS SEMICOLON
+Rule 45    expstring -> expression
+Rule 46    expstring -> STRINGCONST
+Rule 47    writtingloop -> COMMA expstring writtingloop
+Rule 48    writtingloop -> <empty>
+Rule 49    condition -> IF OPENPARENTHESIS expression CLOSEPARENTHESIS block elsecondition SEMICOLON
+Rule 50    elsecondition -> ELSE block
+Rule 51    elsecondition -> <empty>
+
+Terminals, with rules where they appear
+
+ADD                  : 29
+CLOSEBRACKETS        : 14 36
+CLOSEPARENTHESIS     : 44 49
+COLON                : 11
+COMMA                : 5 7 47
+DIFFERENCE           : 25
+DIV                  : 35
+ELSE                 : 50
+EQUAL                : 43
+FLOAT                : 10
+FLOATCONST           : 42
+GREATER              : 23
+ID                   : 1 4 7 8 40 43
+IF                   : 49
+INT                  : 9
+INTCONST             : 41
+LESSER               : 24
+MULT                 : 34
+OPENBRACKETS         : 14 36
+OPENPARENTHESIS      : 44 49
+PRINT                : 44
+PROGRAM              : 1
+SEMICOLON            : 1 11 43 44 49
+STRINGCONST          : 46
+SUB                  : 30
+VAR                  : 2
+error                : 
+
+Nonterminals, with rules where they appear
+
+assignment           : 17
+block                : 1 49 50
+comparer             : 21
+condition            : 18
+constvar             : 37
+declaration          : 2 12
+declarationloop      : 11
+elsecondition        : 49
+exp                  : 20 21 27
+expaux               : 26
+expression           : 36 43 45 49
+expressionaux        : 20
+expstring            : 44 47
+factor               : 31
+ids                  : 11
+idsloop              : 4
+idsloop2             : 5 7
+operation            : 27 38
+operation2           : 32
+optionaloperator     : 37
+program              : 0
+statute              : 15
+statutesloop         : 14 15
+term                 : 26 32
+termaux              : 31
+type                 : 11
+vars                 : 1
+writting             : 19
+writtingloop         : 44 47
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . PROGRAM ID SEMICOLON vars block
+
+    PROGRAM         shift and go to state 2
+
+    program                        shift and go to state 1
+
+state 1
+
+    (0) S' -> program .
+
+
+
+state 2
+
+    (1) program -> PROGRAM . ID SEMICOLON vars block
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) program -> PROGRAM ID . SEMICOLON vars block
+
+    SEMICOLON       shift and go to state 4
+
+
+state 4
+
+    (1) program -> PROGRAM ID SEMICOLON . vars block
+    (2) vars -> . VAR declaration
+    (3) vars -> .
+
+    VAR             shift and go to state 6
+    OPENBRACKETS    reduce using rule 3 (vars -> .)
+
+    vars                           shift and go to state 5
+
+state 5
+
+    (1) program -> PROGRAM ID SEMICOLON vars . block
+    (14) block -> . OPENBRACKETS statutesloop CLOSEBRACKETS
+
+    OPENBRACKETS    shift and go to state 7
+
+    block                          shift and go to state 8
+
+state 6
+
+    (2) vars -> VAR . declaration
+    (11) declaration -> . ids COLON type SEMICOLON declarationloop
+    (4) ids -> . ID idsloop
+
+    ID              shift and go to state 11
+
+    ids                            shift and go to state 9
+    declaration                    shift and go to state 10
+
+state 7
+
+    (14) block -> OPENBRACKETS . statutesloop CLOSEBRACKETS
+    (15) statutesloop -> . statute statutesloop
+    (16) statutesloop -> .
+    (17) statute -> . assignment
+    (18) statute -> . condition
+    (19) statute -> . writting
+    (43) assignment -> . ID EQUAL expression SEMICOLON
+    (49) condition -> . IF OPENPARENTHESIS expression CLOSEPARENTHESIS block elsecondition SEMICOLON
+    (44) writting -> . PRINT OPENPARENTHESIS expstring writtingloop CLOSEPARENTHESIS SEMICOLON
+
+    CLOSEBRACKETS   reduce using rule 16 (statutesloop -> .)
+    ID              shift and go to state 17
+    IF              shift and go to state 19
+    PRINT           shift and go to state 16
+
+    statute                        shift and go to state 12
+    statutesloop                   shift and go to state 13
+    assignment                     shift and go to state 14
+    writting                       shift and go to state 15
+    condition                      shift and go to state 18
+
+state 8
+
+    (1) program -> PROGRAM ID SEMICOLON vars block .
+
+    $end            reduce using rule 1 (program -> PROGRAM ID SEMICOLON vars block .)
+
+
+state 9
+
+    (11) declaration -> ids . COLON type SEMICOLON declarationloop
+
+    COLON           shift and go to state 20
+
+
+state 10
+
+    (2) vars -> VAR declaration .
+
+    OPENBRACKETS    reduce using rule 2 (vars -> VAR declaration .)
+
+
+state 11
+
+    (4) ids -> ID . idsloop
+    (5) idsloop -> . COMMA idsloop2
+    (6) idsloop -> .
+
+    COMMA           shift and go to state 21
+    COLON           reduce using rule 6 (idsloop -> .)
+
+    idsloop                        shift and go to state 22
+
+state 12
+
+    (15) statutesloop -> statute . statutesloop
+    (15) statutesloop -> . statute statutesloop
+    (16) statutesloop -> .
+    (17) statute -> . assignment
+    (18) statute -> . condition
+    (19) statute -> . writting
+    (43) assignment -> . ID EQUAL expression SEMICOLON
+    (49) condition -> . IF OPENPARENTHESIS expression CLOSEPARENTHESIS block elsecondition SEMICOLON
+    (44) writting -> . PRINT OPENPARENTHESIS expstring writtingloop CLOSEPARENTHESIS SEMICOLON
+
+    CLOSEBRACKETS   reduce using rule 16 (statutesloop -> .)
+    ID              shift and go to state 17
+    IF              shift and go to state 19
+    PRINT           shift and go to state 16
+
+    statute                        shift and go to state 12
+    statutesloop                   shift and go to state 23
+    assignment                     shift and go to state 14
+    writting                       shift and go to state 15
+    condition                      shift and go to state 18
+
+state 13
+
+    (14) block -> OPENBRACKETS statutesloop . CLOSEBRACKETS
+
+    CLOSEBRACKETS   shift and go to state 24
+
+
+state 14
+
+    (17) statute -> assignment .
+
+    ID              reduce using rule 17 (statute -> assignment .)
+    IF              reduce using rule 17 (statute -> assignment .)
+    PRINT           reduce using rule 17 (statute -> assignment .)
+    CLOSEBRACKETS   reduce using rule 17 (statute -> assignment .)
+
+
+state 15
+
+    (19) statute -> writting .
+
+    ID              reduce using rule 19 (statute -> writting .)
+    IF              reduce using rule 19 (statute -> writting .)
+    PRINT           reduce using rule 19 (statute -> writting .)
+    CLOSEBRACKETS   reduce using rule 19 (statute -> writting .)
+
+
+state 16
+
+    (44) writting -> PRINT . OPENPARENTHESIS expstring writtingloop CLOSEPARENTHESIS SEMICOLON
+
+    OPENPARENTHESIS shift and go to state 25
+
+
+state 17
+
+    (43) assignment -> ID . EQUAL expression SEMICOLON
+
+    EQUAL           shift and go to state 26
+
+
+state 18
+
+    (18) statute -> condition .
+
+    ID              reduce using rule 18 (statute -> condition .)
+    IF              reduce using rule 18 (statute -> condition .)
+    PRINT           reduce using rule 18 (statute -> condition .)
+    CLOSEBRACKETS   reduce using rule 18 (statute -> condition .)
+
+
+state 19
+
+    (49) condition -> IF . OPENPARENTHESIS expression CLOSEPARENTHESIS block elsecondition SEMICOLON
+
+    OPENPARENTHESIS shift and go to state 27
+
+
+state 20
+
+    (11) declaration -> ids COLON . type SEMICOLON declarationloop
+    (9) type -> . INT
+    (10) type -> . FLOAT
+
+    INT             shift and go to state 28
+    FLOAT           shift and go to state 29
+
+    type                           shift and go to state 30
+
+state 21
+
+    (5) idsloop -> COMMA . idsloop2
+    (7) idsloop2 -> . ID COMMA idsloop2
+    (8) idsloop2 -> . ID
+
+    ID              shift and go to state 32
+
+    idsloop2                       shift and go to state 31
+
+state 22
+
+    (4) ids -> ID idsloop .
+
+    COLON           reduce using rule 4 (ids -> ID idsloop .)
+
+
+state 23
+
+    (15) statutesloop -> statute statutesloop .
+
+    CLOSEBRACKETS   reduce using rule 15 (statutesloop -> statute statutesloop .)
+
+
+state 24
+
+    (14) block -> OPENBRACKETS statutesloop CLOSEBRACKETS .
+
+    ELSE            reduce using rule 14 (block -> OPENBRACKETS statutesloop CLOSEBRACKETS .)
+    SEMICOLON       reduce using rule 14 (block -> OPENBRACKETS statutesloop CLOSEBRACKETS .)
+    $end            reduce using rule 14 (block -> OPENBRACKETS statutesloop CLOSEBRACKETS .)
+
+
+state 25
+
+    (44) writting -> PRINT OPENPARENTHESIS . expstring writtingloop CLOSEPARENTHESIS SEMICOLON
+    (45) expstring -> . expression
+    (46) expstring -> . STRINGCONST
+    (20) expression -> . exp expressionaux
+    (26) exp -> . term expaux
+    (31) term -> . factor termaux
+    (36) factor -> . OPENBRACKETS expression CLOSEBRACKETS
+    (37) factor -> . optionaloperator constvar
+    (38) optionaloperator -> . operation
+    (39) optionaloperator -> .
+    (29) operation -> . ADD
+    (30) operation -> . SUB
+
+    STRINGCONST     shift and go to state 36
+    OPENBRACKETS    shift and go to state 40
+    ID              reduce using rule 39 (optionaloperator -> .)
+    INTCONST        reduce using rule 39 (optionaloperator -> .)
+    FLOATCONST      reduce using rule 39 (optionaloperator -> .)
+    ADD             shift and go to state 35
+    SUB             shift and go to state 43
+
+    term                           shift and go to state 33
+    expstring                      shift and go to state 34
+    optionaloperator               shift and go to state 37
+    exp                            shift and go to state 38
+    factor                         shift and go to state 39
+    expression                     shift and go to state 41
+    operation                      shift and go to state 42
+
+state 26
+
+    (43) assignment -> ID EQUAL . expression SEMICOLON
+    (20) expression -> . exp expressionaux
+    (26) exp -> . term expaux
+    (31) term -> . factor termaux
+    (36) factor -> . OPENBRACKETS expression CLOSEBRACKETS
+    (37) factor -> . optionaloperator constvar
+    (38) optionaloperator -> . operation
+    (39) optionaloperator -> .
+    (29) operation -> . ADD
+    (30) operation -> . SUB
+
+    OPENBRACKETS    shift and go to state 40
+    ID              reduce using rule 39 (optionaloperator -> .)
+    INTCONST        reduce using rule 39 (optionaloperator -> .)
+    FLOATCONST      reduce using rule 39 (optionaloperator -> .)
+    ADD             shift and go to state 35
+    SUB             shift and go to state 43
+
+    term                           shift and go to state 33
+    optionaloperator               shift and go to state 37
+    exp                            shift and go to state 38
+    factor                         shift and go to state 39
+    operation                      shift and go to state 42
+    expression                     shift and go to state 44
+
+state 27
+
+    (49) condition -> IF OPENPARENTHESIS . expression CLOSEPARENTHESIS block elsecondition SEMICOLON
+    (20) expression -> . exp expressionaux
+    (26) exp -> . term expaux
+    (31) term -> . factor termaux
+    (36) factor -> . OPENBRACKETS expression CLOSEBRACKETS
+    (37) factor -> . optionaloperator constvar
+    (38) optionaloperator -> . operation
+    (39) optionaloperator -> .
+    (29) operation -> . ADD
+    (30) operation -> . SUB
+
+    OPENBRACKETS    shift and go to state 40
+    ID              reduce using rule 39 (optionaloperator -> .)
+    INTCONST        reduce using rule 39 (optionaloperator -> .)
+    FLOATCONST      reduce using rule 39 (optionaloperator -> .)
+    ADD             shift and go to state 35
+    SUB             shift and go to state 43
+
+    term                           shift and go to state 33
+    optionaloperator               shift and go to state 37
+    exp                            shift and go to state 38
+    factor                         shift and go to state 39
+    operation                      shift and go to state 42
+    expression                     shift and go to state 45
+
+state 28
+
+    (9) type -> INT .
+
+    SEMICOLON       reduce using rule 9 (type -> INT .)
+
+
+state 29
+
+    (10) type -> FLOAT .
+
+    SEMICOLON       reduce using rule 10 (type -> FLOAT .)
+
+
+state 30
+
+    (11) declaration -> ids COLON type . SEMICOLON declarationloop
+
+    SEMICOLON       shift and go to state 46
+
+
+state 31
+
+    (5) idsloop -> COMMA idsloop2 .
+
+    COLON           reduce using rule 5 (idsloop -> COMMA idsloop2 .)
+
+
+state 32
+
+    (7) idsloop2 -> ID . COMMA idsloop2
+    (8) idsloop2 -> ID .
+
+    COMMA           shift and go to state 47
+    COLON           reduce using rule 8 (idsloop2 -> ID .)
+
+
+state 33
+
+    (26) exp -> term . expaux
+    (27) expaux -> . operation exp
+    (28) expaux -> .
+    (29) operation -> . ADD
+    (30) operation -> . SUB
+
+    GREATER         reduce using rule 28 (expaux -> .)
+    LESSER          reduce using rule 28 (expaux -> .)
+    DIFFERENCE      reduce using rule 28 (expaux -> .)
+    COMMA           reduce using rule 28 (expaux -> .)
+    CLOSEPARENTHESIS reduce using rule 28 (expaux -> .)
+    SEMICOLON       reduce using rule 28 (expaux -> .)
+    CLOSEBRACKETS   reduce using rule 28 (expaux -> .)
+    ADD             shift and go to state 35
+    SUB             shift and go to state 43
+
+    expaux                         shift and go to state 48
+    operation                      shift and go to state 49
+
+state 34
+
+    (44) writting -> PRINT OPENPARENTHESIS expstring . writtingloop CLOSEPARENTHESIS SEMICOLON
+    (47) writtingloop -> . COMMA expstring writtingloop
+    (48) writtingloop -> .
+
+    COMMA           shift and go to state 50
+    CLOSEPARENTHESIS reduce using rule 48 (writtingloop -> .)
+
+    writtingloop                   shift and go to state 51
+
+state 35
+
+    (29) operation -> ADD .
+
+    ID              reduce using rule 29 (operation -> ADD .)
+    INTCONST        reduce using rule 29 (operation -> ADD .)
+    FLOATCONST      reduce using rule 29 (operation -> ADD .)
+    OPENBRACKETS    reduce using rule 29 (operation -> ADD .)
+    ADD             reduce using rule 29 (operation -> ADD .)
+    SUB             reduce using rule 29 (operation -> ADD .)
+
+
+state 36
+
+    (46) expstring -> STRINGCONST .
+
+    COMMA           reduce using rule 46 (expstring -> STRINGCONST .)
+    CLOSEPARENTHESIS reduce using rule 46 (expstring -> STRINGCONST .)
+
+
+state 37
+
+    (37) factor -> optionaloperator . constvar
+    (40) constvar -> . ID
+    (41) constvar -> . INTCONST
+    (42) constvar -> . FLOATCONST
+
+    ID              shift and go to state 54
+    INTCONST        shift and go to state 53
+    FLOATCONST      shift and go to state 55
+
+    constvar                       shift and go to state 52
+
+state 38
+
+    (20) expression -> exp . expressionaux
+    (21) expressionaux -> . comparer exp
+    (22) expressionaux -> .
+    (23) comparer -> . GREATER
+    (24) comparer -> . LESSER
+    (25) comparer -> . DIFFERENCE
+
+    COMMA           reduce using rule 22 (expressionaux -> .)
+    CLOSEPARENTHESIS reduce using rule 22 (expressionaux -> .)
+    SEMICOLON       reduce using rule 22 (expressionaux -> .)
+    CLOSEBRACKETS   reduce using rule 22 (expressionaux -> .)
+    GREATER         shift and go to state 57
+    LESSER          shift and go to state 58
+    DIFFERENCE      shift and go to state 60
+
+    expressionaux                  shift and go to state 56
+    comparer                       shift and go to state 59
+
+state 39
+
+    (31) term -> factor . termaux
+    (32) termaux -> . operation2 term
+    (33) termaux -> .
+    (34) operation2 -> . MULT
+    (35) operation2 -> . DIV
+
+    ADD             reduce using rule 33 (termaux -> .)
+    SUB             reduce using rule 33 (termaux -> .)
+    GREATER         reduce using rule 33 (termaux -> .)
+    LESSER          reduce using rule 33 (termaux -> .)
+    DIFFERENCE      reduce using rule 33 (termaux -> .)
+    COMMA           reduce using rule 33 (termaux -> .)
+    CLOSEPARENTHESIS reduce using rule 33 (termaux -> .)
+    SEMICOLON       reduce using rule 33 (termaux -> .)
+    CLOSEBRACKETS   reduce using rule 33 (termaux -> .)
+    MULT            shift and go to state 64
+    DIV             shift and go to state 62
+
+    operation2                     shift and go to state 61
+    termaux                        shift and go to state 63
+
+state 40
+
+    (36) factor -> OPENBRACKETS . expression CLOSEBRACKETS
+    (20) expression -> . exp expressionaux
+    (26) exp -> . term expaux
+    (31) term -> . factor termaux
+    (36) factor -> . OPENBRACKETS expression CLOSEBRACKETS
+    (37) factor -> . optionaloperator constvar
+    (38) optionaloperator -> . operation
+    (39) optionaloperator -> .
+    (29) operation -> . ADD
+    (30) operation -> . SUB
+
+    OPENBRACKETS    shift and go to state 40
+    ID              reduce using rule 39 (optionaloperator -> .)
+    INTCONST        reduce using rule 39 (optionaloperator -> .)
+    FLOATCONST      reduce using rule 39 (optionaloperator -> .)
+    ADD             shift and go to state 35
+    SUB             shift and go to state 43
+
+    term                           shift and go to state 33
+    optionaloperator               shift and go to state 37
+    exp                            shift and go to state 38
+    factor                         shift and go to state 39
+    operation                      shift and go to state 42
+    expression                     shift and go to state 65
+
+state 41
+
+    (45) expstring -> expression .
+
+    COMMA           reduce using rule 45 (expstring -> expression .)
+    CLOSEPARENTHESIS reduce using rule 45 (expstring -> expression .)
+
+
+state 42
+
+    (38) optionaloperator -> operation .
+
+    ID              reduce using rule 38 (optionaloperator -> operation .)
+    INTCONST        reduce using rule 38 (optionaloperator -> operation .)
+    FLOATCONST      reduce using rule 38 (optionaloperator -> operation .)
+
+
+state 43
+
+    (30) operation -> SUB .
+
+    ID              reduce using rule 30 (operation -> SUB .)
+    INTCONST        reduce using rule 30 (operation -> SUB .)
+    FLOATCONST      reduce using rule 30 (operation -> SUB .)
+    OPENBRACKETS    reduce using rule 30 (operation -> SUB .)
+    ADD             reduce using rule 30 (operation -> SUB .)
+    SUB             reduce using rule 30 (operation -> SUB .)
+
+
+state 44
+
+    (43) assignment -> ID EQUAL expression . SEMICOLON
+
+    SEMICOLON       shift and go to state 66
+
+
+state 45
+
+    (49) condition -> IF OPENPARENTHESIS expression . CLOSEPARENTHESIS block elsecondition SEMICOLON
+
+    CLOSEPARENTHESIS shift and go to state 67
+
+
+state 46
+
+    (11) declaration -> ids COLON type SEMICOLON . declarationloop
+    (12) declarationloop -> . declaration
+    (13) declarationloop -> .
+    (11) declaration -> . ids COLON type SEMICOLON declarationloop
+    (4) ids -> . ID idsloop
+
+    OPENBRACKETS    reduce using rule 13 (declarationloop -> .)
+    ID              shift and go to state 11
+
+    declarationloop                shift and go to state 68
+    ids                            shift and go to state 9
+    declaration                    shift and go to state 69
+
+state 47
+
+    (7) idsloop2 -> ID COMMA . idsloop2
+    (7) idsloop2 -> . ID COMMA idsloop2
+    (8) idsloop2 -> . ID
+
+    ID              shift and go to state 32
+
+    idsloop2                       shift and go to state 70
+
+state 48
+
+    (26) exp -> term expaux .
+
+    GREATER         reduce using rule 26 (exp -> term expaux .)
+    LESSER          reduce using rule 26 (exp -> term expaux .)
+    DIFFERENCE      reduce using rule 26 (exp -> term expaux .)
+    COMMA           reduce using rule 26 (exp -> term expaux .)
+    CLOSEPARENTHESIS reduce using rule 26 (exp -> term expaux .)
+    SEMICOLON       reduce using rule 26 (exp -> term expaux .)
+    CLOSEBRACKETS   reduce using rule 26 (exp -> term expaux .)
+
+
+state 49
+
+    (27) expaux -> operation . exp
+    (26) exp -> . term expaux
+    (31) term -> . factor termaux
+    (36) factor -> . OPENBRACKETS expression CLOSEBRACKETS
+    (37) factor -> . optionaloperator constvar
+    (38) optionaloperator -> . operation
+    (39) optionaloperator -> .
+    (29) operation -> . ADD
+    (30) operation -> . SUB
+
+    OPENBRACKETS    shift and go to state 40
+    ID              reduce using rule 39 (optionaloperator -> .)
+    INTCONST        reduce using rule 39 (optionaloperator -> .)
+    FLOATCONST      reduce using rule 39 (optionaloperator -> .)
+    ADD             shift and go to state 35
+    SUB             shift and go to state 43
+
+    term                           shift and go to state 33
+    optionaloperator               shift and go to state 37
+    exp                            shift and go to state 71
+    factor                         shift and go to state 39
+    operation                      shift and go to state 42
+
+state 50
+
+    (47) writtingloop -> COMMA . expstring writtingloop
+    (45) expstring -> . expression
+    (46) expstring -> . STRINGCONST
+    (20) expression -> . exp expressionaux
+    (26) exp -> . term expaux
+    (31) term -> . factor termaux
+    (36) factor -> . OPENBRACKETS expression CLOSEBRACKETS
+    (37) factor -> . optionaloperator constvar
+    (38) optionaloperator -> . operation
+    (39) optionaloperator -> .
+    (29) operation -> . ADD
+    (30) operation -> . SUB
+
+    STRINGCONST     shift and go to state 36
+    OPENBRACKETS    shift and go to state 40
+    ID              reduce using rule 39 (optionaloperator -> .)
+    INTCONST        reduce using rule 39 (optionaloperator -> .)
+    FLOATCONST      reduce using rule 39 (optionaloperator -> .)
+    ADD             shift and go to state 35
+    SUB             shift and go to state 43
+
+    term                           shift and go to state 33
+    expstring                      shift and go to state 72
+    optionaloperator               shift and go to state 37
+    exp                            shift and go to state 38
+    factor                         shift and go to state 39
+    expression                     shift and go to state 41
+    operation                      shift and go to state 42
+
+state 51
+
+    (44) writting -> PRINT OPENPARENTHESIS expstring writtingloop . CLOSEPARENTHESIS SEMICOLON
+
+    CLOSEPARENTHESIS shift and go to state 73
+
+
+state 52
+
+    (37) factor -> optionaloperator constvar .
+
+    MULT            reduce using rule 37 (factor -> optionaloperator constvar .)
+    DIV             reduce using rule 37 (factor -> optionaloperator constvar .)
+    ADD             reduce using rule 37 (factor -> optionaloperator constvar .)
+    SUB             reduce using rule 37 (factor -> optionaloperator constvar .)
+    COMMA           reduce using rule 37 (factor -> optionaloperator constvar .)
+    CLOSEPARENTHESIS reduce using rule 37 (factor -> optionaloperator constvar .)
+    SEMICOLON       reduce using rule 37 (factor -> optionaloperator constvar .)
+    CLOSEBRACKETS   reduce using rule 37 (factor -> optionaloperator constvar .)
+    GREATER         reduce using rule 37 (factor -> optionaloperator constvar .)
+    LESSER          reduce using rule 37 (factor -> optionaloperator constvar .)
+    DIFFERENCE      reduce using rule 37 (factor -> optionaloperator constvar .)
+
+
+state 53
+
+    (41) constvar -> INTCONST .
+
+    MULT            reduce using rule 41 (constvar -> INTCONST .)
+    DIV             reduce using rule 41 (constvar -> INTCONST .)
+    ADD             reduce using rule 41 (constvar -> INTCONST .)
+    SUB             reduce using rule 41 (constvar -> INTCONST .)
+    GREATER         reduce using rule 41 (constvar -> INTCONST .)
+    LESSER          reduce using rule 41 (constvar -> INTCONST .)
+    DIFFERENCE      reduce using rule 41 (constvar -> INTCONST .)
+    COMMA           reduce using rule 41 (constvar -> INTCONST .)
+    CLOSEPARENTHESIS reduce using rule 41 (constvar -> INTCONST .)
+    SEMICOLON       reduce using rule 41 (constvar -> INTCONST .)
+    CLOSEBRACKETS   reduce using rule 41 (constvar -> INTCONST .)
+
+
+state 54
+
+    (40) constvar -> ID .
+
+    MULT            reduce using rule 40 (constvar -> ID .)
+    DIV             reduce using rule 40 (constvar -> ID .)
+    ADD             reduce using rule 40 (constvar -> ID .)
+    SUB             reduce using rule 40 (constvar -> ID .)
+    GREATER         reduce using rule 40 (constvar -> ID .)
+    LESSER          reduce using rule 40 (constvar -> ID .)
+    DIFFERENCE      reduce using rule 40 (constvar -> ID .)
+    COMMA           reduce using rule 40 (constvar -> ID .)
+    CLOSEPARENTHESIS reduce using rule 40 (constvar -> ID .)
+    SEMICOLON       reduce using rule 40 (constvar -> ID .)
+    CLOSEBRACKETS   reduce using rule 40 (constvar -> ID .)
+
+
+state 55
+
+    (42) constvar -> FLOATCONST .
+
+    MULT            reduce using rule 42 (constvar -> FLOATCONST .)
+    DIV             reduce using rule 42 (constvar -> FLOATCONST .)
+    ADD             reduce using rule 42 (constvar -> FLOATCONST .)
+    SUB             reduce using rule 42 (constvar -> FLOATCONST .)
+    GREATER         reduce using rule 42 (constvar -> FLOATCONST .)
+    LESSER          reduce using rule 42 (constvar -> FLOATCONST .)
+    DIFFERENCE      reduce using rule 42 (constvar -> FLOATCONST .)
+    COMMA           reduce using rule 42 (constvar -> FLOATCONST .)
+    CLOSEPARENTHESIS reduce using rule 42 (constvar -> FLOATCONST .)
+    SEMICOLON       reduce using rule 42 (constvar -> FLOATCONST .)
+    CLOSEBRACKETS   reduce using rule 42 (constvar -> FLOATCONST .)
+
+
+state 56
+
+    (20) expression -> exp expressionaux .
+
+    CLOSEPARENTHESIS reduce using rule 20 (expression -> exp expressionaux .)
+    SEMICOLON       reduce using rule 20 (expression -> exp expressionaux .)
+    COMMA           reduce using rule 20 (expression -> exp expressionaux .)
+    CLOSEBRACKETS   reduce using rule 20 (expression -> exp expressionaux .)
+
+
+state 57
+
+    (23) comparer -> GREATER .
+
+    OPENBRACKETS    reduce using rule 23 (comparer -> GREATER .)
+    ADD             reduce using rule 23 (comparer -> GREATER .)
+    SUB             reduce using rule 23 (comparer -> GREATER .)
+    ID              reduce using rule 23 (comparer -> GREATER .)
+    INTCONST        reduce using rule 23 (comparer -> GREATER .)
+    FLOATCONST      reduce using rule 23 (comparer -> GREATER .)
+
+
+state 58
+
+    (24) comparer -> LESSER .
+
+    OPENBRACKETS    reduce using rule 24 (comparer -> LESSER .)
+    ADD             reduce using rule 24 (comparer -> LESSER .)
+    SUB             reduce using rule 24 (comparer -> LESSER .)
+    ID              reduce using rule 24 (comparer -> LESSER .)
+    INTCONST        reduce using rule 24 (comparer -> LESSER .)
+    FLOATCONST      reduce using rule 24 (comparer -> LESSER .)
+
+
+state 59
+
+    (21) expressionaux -> comparer . exp
+    (26) exp -> . term expaux
+    (31) term -> . factor termaux
+    (36) factor -> . OPENBRACKETS expression CLOSEBRACKETS
+    (37) factor -> . optionaloperator constvar
+    (38) optionaloperator -> . operation
+    (39) optionaloperator -> .
+    (29) operation -> . ADD
+    (30) operation -> . SUB
+
+    OPENBRACKETS    shift and go to state 40
+    ID              reduce using rule 39 (optionaloperator -> .)
+    INTCONST        reduce using rule 39 (optionaloperator -> .)
+    FLOATCONST      reduce using rule 39 (optionaloperator -> .)
+    ADD             shift and go to state 35
+    SUB             shift and go to state 43
+
+    term                           shift and go to state 33
+    optionaloperator               shift and go to state 37
+    exp                            shift and go to state 74
+    factor                         shift and go to state 39
+    operation                      shift and go to state 42
+
+state 60
+
+    (25) comparer -> DIFFERENCE .
+
+    OPENBRACKETS    reduce using rule 25 (comparer -> DIFFERENCE .)
+    ADD             reduce using rule 25 (comparer -> DIFFERENCE .)
+    SUB             reduce using rule 25 (comparer -> DIFFERENCE .)
+    ID              reduce using rule 25 (comparer -> DIFFERENCE .)
+    INTCONST        reduce using rule 25 (comparer -> DIFFERENCE .)
+    FLOATCONST      reduce using rule 25 (comparer -> DIFFERENCE .)
+
+
+state 61
+
+    (32) termaux -> operation2 . term
+    (31) term -> . factor termaux
+    (36) factor -> . OPENBRACKETS expression CLOSEBRACKETS
+    (37) factor -> . optionaloperator constvar
+    (38) optionaloperator -> . operation
+    (39) optionaloperator -> .
+    (29) operation -> . ADD
+    (30) operation -> . SUB
+
+    OPENBRACKETS    shift and go to state 40
+    ID              reduce using rule 39 (optionaloperator -> .)
+    INTCONST        reduce using rule 39 (optionaloperator -> .)
+    FLOATCONST      reduce using rule 39 (optionaloperator -> .)
+    ADD             shift and go to state 35
+    SUB             shift and go to state 43
+
+    term                           shift and go to state 75
+    optionaloperator               shift and go to state 37
+    factor                         shift and go to state 39
+    operation                      shift and go to state 42
+
+state 62
+
+    (35) operation2 -> DIV .
+
+    OPENBRACKETS    reduce using rule 35 (operation2 -> DIV .)
+    ADD             reduce using rule 35 (operation2 -> DIV .)
+    SUB             reduce using rule 35 (operation2 -> DIV .)
+    ID              reduce using rule 35 (operation2 -> DIV .)
+    INTCONST        reduce using rule 35 (operation2 -> DIV .)
+    FLOATCONST      reduce using rule 35 (operation2 -> DIV .)
+
+
+state 63
+
+    (31) term -> factor termaux .
+
+    ADD             reduce using rule 31 (term -> factor termaux .)
+    SUB             reduce using rule 31 (term -> factor termaux .)
+    GREATER         reduce using rule 31 (term -> factor termaux .)
+    LESSER          reduce using rule 31 (term -> factor termaux .)
+    DIFFERENCE      reduce using rule 31 (term -> factor termaux .)
+    COMMA           reduce using rule 31 (term -> factor termaux .)
+    CLOSEPARENTHESIS reduce using rule 31 (term -> factor termaux .)
+    SEMICOLON       reduce using rule 31 (term -> factor termaux .)
+    CLOSEBRACKETS   reduce using rule 31 (term -> factor termaux .)
+
+
+state 64
+
+    (34) operation2 -> MULT .
+
+    OPENBRACKETS    reduce using rule 34 (operation2 -> MULT .)
+    ADD             reduce using rule 34 (operation2 -> MULT .)
+    SUB             reduce using rule 34 (operation2 -> MULT .)
+    ID              reduce using rule 34 (operation2 -> MULT .)
+    INTCONST        reduce using rule 34 (operation2 -> MULT .)
+    FLOATCONST      reduce using rule 34 (operation2 -> MULT .)
+
+
+state 65
+
+    (36) factor -> OPENBRACKETS expression . CLOSEBRACKETS
+
+    CLOSEBRACKETS   shift and go to state 76
+
+
+state 66
+
+    (43) assignment -> ID EQUAL expression SEMICOLON .
+
+    ID              reduce using rule 43 (assignment -> ID EQUAL expression SEMICOLON .)
+    IF              reduce using rule 43 (assignment -> ID EQUAL expression SEMICOLON .)
+    PRINT           reduce using rule 43 (assignment -> ID EQUAL expression SEMICOLON .)
+    CLOSEBRACKETS   reduce using rule 43 (assignment -> ID EQUAL expression SEMICOLON .)
+
+
+state 67
+
+    (49) condition -> IF OPENPARENTHESIS expression CLOSEPARENTHESIS . block elsecondition SEMICOLON
+    (14) block -> . OPENBRACKETS statutesloop CLOSEBRACKETS
+
+    OPENBRACKETS    shift and go to state 7
+
+    block                          shift and go to state 77
+
+state 68
+
+    (11) declaration -> ids COLON type SEMICOLON declarationloop .
+
+    OPENBRACKETS    reduce using rule 11 (declaration -> ids COLON type SEMICOLON declarationloop .)
+
+
+state 69
+
+    (12) declarationloop -> declaration .
+
+    OPENBRACKETS    reduce using rule 12 (declarationloop -> declaration .)
+
+
+state 70
+
+    (7) idsloop2 -> ID COMMA idsloop2 .
+
+    COLON           reduce using rule 7 (idsloop2 -> ID COMMA idsloop2 .)
+
+
+state 71
+
+    (27) expaux -> operation exp .
+
+    GREATER         reduce using rule 27 (expaux -> operation exp .)
+    LESSER          reduce using rule 27 (expaux -> operation exp .)
+    DIFFERENCE      reduce using rule 27 (expaux -> operation exp .)
+    COMMA           reduce using rule 27 (expaux -> operation exp .)
+    CLOSEPARENTHESIS reduce using rule 27 (expaux -> operation exp .)
+    SEMICOLON       reduce using rule 27 (expaux -> operation exp .)
+    CLOSEBRACKETS   reduce using rule 27 (expaux -> operation exp .)
+
+
+state 72
+
+    (47) writtingloop -> COMMA expstring . writtingloop
+    (47) writtingloop -> . COMMA expstring writtingloop
+    (48) writtingloop -> .
+
+    COMMA           shift and go to state 50
+    CLOSEPARENTHESIS reduce using rule 48 (writtingloop -> .)
+
+    writtingloop                   shift and go to state 78
+
+state 73
+
+    (44) writting -> PRINT OPENPARENTHESIS expstring writtingloop CLOSEPARENTHESIS . SEMICOLON
+
+    SEMICOLON       shift and go to state 79
+
+
+state 74
+
+    (21) expressionaux -> comparer exp .
+
+    COMMA           reduce using rule 21 (expressionaux -> comparer exp .)
+    CLOSEPARENTHESIS reduce using rule 21 (expressionaux -> comparer exp .)
+    SEMICOLON       reduce using rule 21 (expressionaux -> comparer exp .)
+    CLOSEBRACKETS   reduce using rule 21 (expressionaux -> comparer exp .)
+
+
+state 75
+
+    (32) termaux -> operation2 term .
+
+    ADD             reduce using rule 32 (termaux -> operation2 term .)
+    SUB             reduce using rule 32 (termaux -> operation2 term .)
+    GREATER         reduce using rule 32 (termaux -> operation2 term .)
+    LESSER          reduce using rule 32 (termaux -> operation2 term .)
+    DIFFERENCE      reduce using rule 32 (termaux -> operation2 term .)
+    COMMA           reduce using rule 32 (termaux -> operation2 term .)
+    CLOSEPARENTHESIS reduce using rule 32 (termaux -> operation2 term .)
+    SEMICOLON       reduce using rule 32 (termaux -> operation2 term .)
+    CLOSEBRACKETS   reduce using rule 32 (termaux -> operation2 term .)
+
+
+state 76
+
+    (36) factor -> OPENBRACKETS expression CLOSEBRACKETS .
+
+    MULT            reduce using rule 36 (factor -> OPENBRACKETS expression CLOSEBRACKETS .)
+    DIV             reduce using rule 36 (factor -> OPENBRACKETS expression CLOSEBRACKETS .)
+    ADD             reduce using rule 36 (factor -> OPENBRACKETS expression CLOSEBRACKETS .)
+    SUB             reduce using rule 36 (factor -> OPENBRACKETS expression CLOSEBRACKETS .)
+    COMMA           reduce using rule 36 (factor -> OPENBRACKETS expression CLOSEBRACKETS .)
+    CLOSEPARENTHESIS reduce using rule 36 (factor -> OPENBRACKETS expression CLOSEBRACKETS .)
+    SEMICOLON       reduce using rule 36 (factor -> OPENBRACKETS expression CLOSEBRACKETS .)
+    CLOSEBRACKETS   reduce using rule 36 (factor -> OPENBRACKETS expression CLOSEBRACKETS .)
+    GREATER         reduce using rule 36 (factor -> OPENBRACKETS expression CLOSEBRACKETS .)
+    LESSER          reduce using rule 36 (factor -> OPENBRACKETS expression CLOSEBRACKETS .)
+    DIFFERENCE      reduce using rule 36 (factor -> OPENBRACKETS expression CLOSEBRACKETS .)
+
+
+state 77
+
+    (49) condition -> IF OPENPARENTHESIS expression CLOSEPARENTHESIS block . elsecondition SEMICOLON
+    (50) elsecondition -> . ELSE block
+    (51) elsecondition -> .
+
+    ELSE            shift and go to state 81
+    SEMICOLON       reduce using rule 51 (elsecondition -> .)
+
+    elsecondition                  shift and go to state 80
+
+state 78
+
+    (47) writtingloop -> COMMA expstring writtingloop .
+
+    CLOSEPARENTHESIS reduce using rule 47 (writtingloop -> COMMA expstring writtingloop .)
+
+
+state 79
+
+    (44) writting -> PRINT OPENPARENTHESIS expstring writtingloop CLOSEPARENTHESIS SEMICOLON .
+
+    ID              reduce using rule 44 (writting -> PRINT OPENPARENTHESIS expstring writtingloop CLOSEPARENTHESIS SEMICOLON .)
+    IF              reduce using rule 44 (writting -> PRINT OPENPARENTHESIS expstring writtingloop CLOSEPARENTHESIS SEMICOLON .)
+    PRINT           reduce using rule 44 (writting -> PRINT OPENPARENTHESIS expstring writtingloop CLOSEPARENTHESIS SEMICOLON .)
+    CLOSEBRACKETS   reduce using rule 44 (writting -> PRINT OPENPARENTHESIS expstring writtingloop CLOSEPARENTHESIS SEMICOLON .)
+
+
+state 80
+
+    (49) condition -> IF OPENPARENTHESIS expression CLOSEPARENTHESIS block elsecondition . SEMICOLON
+
+    SEMICOLON       shift and go to state 82
+
+
+state 81
+
+    (50) elsecondition -> ELSE . block
+    (14) block -> . OPENBRACKETS statutesloop CLOSEBRACKETS
+
+    OPENBRACKETS    shift and go to state 7
+
+    block                          shift and go to state 83
+
+state 82
+
+    (49) condition -> IF OPENPARENTHESIS expression CLOSEPARENTHESIS block elsecondition SEMICOLON .
+
+    ID              reduce using rule 49 (condition -> IF OPENPARENTHESIS expression CLOSEPARENTHESIS block elsecondition SEMICOLON .)
+    IF              reduce using rule 49 (condition -> IF OPENPARENTHESIS expression CLOSEPARENTHESIS block elsecondition SEMICOLON .)
+    PRINT           reduce using rule 49 (condition -> IF OPENPARENTHESIS expression CLOSEPARENTHESIS block elsecondition SEMICOLON .)
+    CLOSEBRACKETS   reduce using rule 49 (condition -> IF OPENPARENTHESIS expression CLOSEPARENTHESIS block elsecondition SEMICOLON .)
+
+
+state 83
+
+    (50) elsecondition -> ELSE block .
+
+    SEMICOLON       reduce using rule 50 (elsecondition -> ELSE block .)
+
