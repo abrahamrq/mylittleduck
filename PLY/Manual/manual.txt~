@@ -1,16 +1,11 @@
-Para compilar Flex y Bison. Poner en la terminal lo siguiente:
+Tienes que abrir la consola de python tecleando 'python' en tu consola
 
-flex flex.l
-bison bison.y
-g++ bison.tab.c lex.yy.c -lfl -o bison
+Teclear el comando from parser import *
+Y ahora simplemente se utiliza una funcion llamada check de la siguiente manera:
 
-Correr los archivos de prueba de la siguiente manera:
+>>> from parser import *
+>>> check('nombreDelArchivo')
+VALID!
 
-./bison nombreDelArchivo
 
 
-Nombres de los archivos:
-testFlex1
-testFlex2
-testFlex3
-testFlex4
