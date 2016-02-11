@@ -1,0 +1,16 @@
+Para compilar Flex y Bison. Poner en la terminal lo siguiente:
+
+flex flex.l
+bison bison.y
+g++ bison.tab.c lex.yy.c -lfl -o bison
+
+Correr los archivos de prueba de la siguiente manera:
+
+./bison nombreDelArchivo
+
+
+Nombres de los archivos:
+testFlex1
+testFlex2
+testFlex3
+testFlex4
